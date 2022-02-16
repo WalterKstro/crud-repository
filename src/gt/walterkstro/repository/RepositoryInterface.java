@@ -1,13 +1,12 @@
 package gt.walterkstro.repository;
 
-import gt.walterkstro.model.Customer;
 
 import java.util.List;
 
-public interface RepositoryInterface {
-    List<Customer> getAll();
-    Customer getById(Customer customer);
-    void newCustomer(Customer customer);
-    void updateCustomer(Customer customer);
-    void deleteCustomer(int id);
+public interface RepositoryInterface <T> {
+    List<T> getAll();
+    T getById(T t);
+    void addNew(T t);
+    void update(T t);
+    void delete(int id);
 }

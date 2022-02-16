@@ -2,29 +2,20 @@ package gt.walterkstro.model;
 
 import java.util.Objects;
 
-public class Customer {
-    private int id;
+public class Customer extends BaseComon{
     private String first;
     private String last;
-    public static int counter = 0;
 
     public Customer(String first, String last) {
-        this();
+        super();
         this.first = first;
         this.last = last;
-    }
-
-    public Customer() {
-        this.id = Customer.counter++;
     }
 
     public Customer(int id) {
         this.id = id;
     }
 
-    public int getId() {
-        return id;
-    }
     public String getFirst() {
         return first;
     }
@@ -44,23 +35,11 @@ public class Customer {
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("Customer{");
-        sb.append("id=").append(id);
-        sb.append(", first='").append(first).append('\'');
-        sb.append(", last='").append(last).append('\'');
-        sb.append('}');
+        sb.append("id=")
+                .append(id).
+                append(", first='").append(first).append('\'').
+                append(", last='").append(last).append('\'').
+                append('}');
         return sb.toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Customer customer = (Customer) o;
-        return id == customer.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }

@@ -4,6 +4,6 @@ import gt.walterkstro.model.Customer;
 
 import java.util.List;
 
-public interface RepositoryOrder {
-    List<Customer> getAll(String orderByField, Order typeOrder);
+public interface RepositoryOrder<T> {
+    List<T> getAll(String orderByField, Order typeOrder);
 }

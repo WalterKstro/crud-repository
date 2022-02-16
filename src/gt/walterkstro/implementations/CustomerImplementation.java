@@ -1,52 +1,22 @@
 package gt.walterkstro.implementations;
 
 import gt.walterkstro.model.Customer;
-import gt.walterkstro.repository.*;
+import gt.walterkstro.repository.Order;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerImplementation implements RootInterface {
-    List<Customer> dataSourceCustomers;
 
-    public CustomerImplementation() {
-        this.dataSourceCustomers = new ArrayList<>();
-    }
+public class CustomerImplementation extends AbstractImplementation<Customer>{
 
     @Override
-    public List<Customer> getAll() {
-        return this.dataSourceCustomers;
-    }
-
-    @Override
-    public Customer getById(Customer customerToFind) {
-        Customer customerById = dataSourceCustomers.stream()
-                .filter(customer -> customer.getId() == customerToFind.getId())
-                .findFirst()
-                .orElse(null);
-        return customerById;
-    }
-
-    @Override
-    public void newCustomer(Customer customer) {
-        if(customer != null) {
-            dataSourceCustomers.add(customer);
-        }
-    }
-
-    @Override
-    public void updateCustomer(Customer customer) {
+    public void update(Customer customer) {
         Customer result = getById(customer);
 
         if(result != null) {
             result.setFirst(customer.getFirst());
             result.setLast(customer.getLast());
         }
-    }
-
-    @Override
-    public void deleteCustomer(int id) {
-        dataSourceCustomers.removeIf(customer -> customer.getId() == id);
     }
 
     @Override
@@ -64,7 +34,7 @@ public class CustomerImplementation implements RootInterface {
         return customersOrdered;
     }
 
-    private int OrderingNow(String orderByField,Customer customerOne, Customer customerTwo) {
+    private int OrderingNow(String orderByField, Customer customerOne, Customer customerTwo) {
         int result = 0;
         switch (orderByField) {
             case "id"-> result = customerOne.getId() - customerTwo.getId();
@@ -75,13 +45,8 @@ public class CustomerImplementation implements RootInterface {
     }
 
     @Override
-    public List<Customer> getAll(int startPagination, int endPagination) {
-        return dataSourceCustomers.subList(startPagination, endPagination);
+    public void delete(int id) {
+        dataSourceCustomers.removeIf(customer -> customer.getId() == id);
     }
 
-
-    @Override
-    public int countCustomers() {
-        return dataSourceCustomers.size();
-    }
 }

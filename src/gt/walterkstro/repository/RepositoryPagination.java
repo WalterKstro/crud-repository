@@ -4,6 +4,6 @@ import gt.walterkstro.model.Customer;
 
 import java.util.List;
 
-public interface RepositoryPagination {
-    List<Customer> getAll(int startPagination, int endPagination);
+public interface RepositoryPagination<T> {
+    List<T> getAll(int startPagination, int endPagination);
 }

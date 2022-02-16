@@ -1,9 +1,8 @@
 package gt.walterkstro.repository;
 
-public interface RootInterface extends
-        RepositoryInterface,
-        RepositoryOrder,
+public interface RootInterface<T> extends
+        RepositoryInterface<T>,
+        RepositoryOrder<T>,
         RepositoryCountCustomers,
-        RepositoryPagination {
-
+        RepositoryPagination<T> {
 }
