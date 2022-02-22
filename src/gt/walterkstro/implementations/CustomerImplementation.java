@@ -1,5 +1,7 @@
 package gt.walterkstro.implementations;
 
+import gt.walterkstro.exceptions.ReadException;
+import gt.walterkstro.exceptions.WriteException;
 import gt.walterkstro.model.Customer;
 import gt.walterkstro.repository.Order;
 
@@ -10,7 +12,7 @@ import java.util.List;
 public class CustomerImplementation extends AbstractImplementation<Customer>{
 
     @Override
-    public void update(Customer customer) {
+    public void update(Customer customer) throws ReadException {
         Customer result = getById(customer);
 
         if(result != null) {
@@ -45,8 +47,11 @@ public class CustomerImplementation extends AbstractImplementation<Customer>{
     }
 
     @Override
-    public void delete(int id) {
-        dataSourceCustomers.removeIf(customer -> customer.getId() == id);
+    public void delete(int id) throws WriteException{
+        boolean isRemoved = dataSourceCustomers.removeIf(customer -> customer.getId() == id);
+        if(!isRemoved) {
+            throw new WriteException("Customer with id " + id + " not found");
+        }
     }
 
 }

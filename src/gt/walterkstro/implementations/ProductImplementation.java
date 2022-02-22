@@ -1,5 +1,7 @@
 package gt.walterkstro.implementations;
 
+import gt.walterkstro.exceptions.GeneralException;
+import gt.walterkstro.exceptions.WriteException;
 import gt.walterkstro.model.Product;
 import gt.walterkstro.repository.Order;
 
@@ -9,7 +11,7 @@ import java.util.List;
 public class ProductImplementation extends AbstractImplementation<Product>{
 
     @Override
-    public void update(Product product) {
+    public void update(Product product) throws GeneralException {
         Product result = getById(product);
 
         if(result != null) {
@@ -20,8 +22,11 @@ public class ProductImplementation extends AbstractImplementation<Product>{
     }
 
     @Override
-    public void delete(int id) {
-        dataSourceCustomers.removeIf(product -> product.getId() == id);
+    public void delete(int id) throws WriteException{
+        boolean isRemoved = dataSourceCustomers.removeIf(product -> product.getId() == id);
+        if(!isRemoved) {
+            throw new WriteException("Product with id " + id + " not found");
+        }
     }
 
     @Override

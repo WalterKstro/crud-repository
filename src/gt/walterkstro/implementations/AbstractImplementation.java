@@ -1,5 +1,8 @@
 package gt.walterkstro.implementations;
 
+import gt.walterkstro.exceptions.DuplicateException;
+import gt.walterkstro.exceptions.ReadException;
+import gt.walterkstro.exceptions.WriteException;
 import gt.walterkstro.model.BaseComon;
 import gt.walterkstro.repository.*;
 
@@ -14,11 +17,18 @@ public abstract class AbstractImplementation<T extends BaseComon> implements Roo
     }
 
     @Override
-    public T getById(T t) {
+    public T getById(T t) throws ReadException {
+        if(t == null){
+            throw new ReadException("The object is null");
+        }
         T elementToFind = dataSourceCustomers.stream()
                 .filter(elementFinded -> elementFinded.getId() == t.getId())
                 .findFirst()
                 .orElse(null);
+
+        if(elementToFind == null){
+            throw new ReadException("The object is not found");
+        }
         return elementToFind;
     }
 
@@ -28,10 +38,15 @@ public abstract class AbstractImplementation<T extends BaseComon> implements Roo
     }
 
     @Override
-    public void addNew(T t) {
-        if(t != null) {
-            dataSourceCustomers.add(t);
+    public void addNew(T t) throws WriteException {
+        if(t == null) {
+            throw new WriteException("The object isn't null");
         }
+        boolean foundedT = this.dataSourceCustomers.contains(t);
+        if(foundedT){
+            throw new DuplicateException("The object with id: " +t.getId()+ " is already in the list");
+        }
+        dataSourceCustomers.add(t);
     }
 
     @Override
